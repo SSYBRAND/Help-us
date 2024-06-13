@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Us - Sattu Technologies</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 20px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            height: 150px;
+        }
+
+        button {
+            background-color: #ff6f61;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        button:hover {
+            background-color: #ff3e30;
+        }
+
+        .file-input {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Help Us - Report an Issue</h1>
+        <form id="helpForm">
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="phone">Mobile Number:</label>
+            <input type="tel" id="phone" name="phone" required>
+
+            <label for="issueType">Select the Issue:</label>
+            <select id="issueType" name="issueType" required>
+                <option value="">Select...</option>
+                <option value="transaction_issue">Facing issue in transaction</option>
+                <option value="website_not_working">Website not working</option>
+                <option value="other">Other (Specify Below)</option>
+            </select>
+
+            <label for="details">Details (Please elaborate on the issue):</label>
+            <textarea id="details" name="details" rows="5" required></textarea>
+
+            <label for="screenshot">Optional: Upload Screenshot (if applicable):</label>
+            <input type="file" id="screenshot" name="screenshot" class="file-input">
+
+            <button type="button" onclick="submitForm()">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        function submitForm() {
+            var name = document.getElementById('name').value;
+            var email = document.getElementById('email').value;
+            var phone = document.getElementById('phone').value;
+            var issueType = document.getElementById('issueType').value;
+            var details = document.getElementById('details').value;
+            var screenshot = document.getElementById('screenshot').files[0]; // File object
+
+            var message = `
+                Name: ${name}\n
+                Email: ${email}\n
+                Phone: ${phone}\n
+                Issue Type: ${issueType}\n
+                Details: ${details}\n
+            `;
+
+            // Construct mailto link with subject and body
+            var mailtoLink = 'mailto:ssybrand58@gmail.com' +
+                             '?subject=Help Request: ' + issueType +
+                             '&body=' + encodeURIComponent(message);
+
+            // Add screenshot attachment if provided
+            if (screenshot) {
+                var formData = new FormData();
+                formData.append('attachment', screenshot, screenshot.name);
+                mailtoLink += '&attachments=' + encodeURIComponent(screenshot.name);
+            }
+
+            // Open the default mail client with pre-filled data
+            window.location.href = mailtoLink;
+        }
+    </script>
+</body>
+</html>
